@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="com.yspay.YsVarInt"/>
+<classEntry path="com.yspay.YsVarString"/>
+<classEntry path="com.yspay.YsVarBool"/>
+<classEntry path="com.yspay.YsVar"/>
+<classEntry path="com.yspay.UserBus"/>
+<classEntry path="com.yspay.YsVarDouble"/>
+</includeClasses>
+<includeResources/>
+<namespaceManifests/>
+</flexLibProperties>
