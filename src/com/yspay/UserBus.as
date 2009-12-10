@@ -97,10 +97,16 @@ package com.yspay
             var rtn:String = '<NODE KEY="' + var_key + '" TYPE="';
             rtn += var_type + '">\n';
             
-            for each(var array:Array in bus_object)
+            for(var key:String in bus_object)
             {
+                var array:Array = bus_object[key];
+                rtn += '<NODE KEY="' + key + 
+                    '" TYPE="ARRAY" LEN="' + array.length + '">\n';
                 for each(var item:YsVar in array)
+                {
                     rtn += item.toXml();
+                }
+                rtn += '</NODE>\n';
             }
             
             rtn += '</NODE>';
