@@ -8,6 +8,12 @@ package com.yspay
             var_value = value;
             var_type = "BOOL";
         }
-        
+        public override function getXmlValue():String
+        {
+            if (var_value == true)
+                return "TRUE";
+            else
+                return "FALSE";
+        }
     }
 }

@@ -1,7 +1,8 @@
 package com.yspay
 {
-	import flash.utils.ByteArray;
-	import flash.utils.Endian;
+    import flash.utils.ByteArray;
+    import flash.utils.Endian;
+
     // Int32
     public class YsVarInt extends YsVar
     {
@@ -9,31 +10,42 @@ package com.yspay
         {
             super(key);
             var_value = value;
-            var_type = "INT";
+            var_type = "INT32";
         }
+
         public override function getXmlValue():String
         {
-        	var rtn:String = "";
-        	var byte_arr:ByteArray = new ByteArray;
-        	var value:int = var_value;
-        	byte_arr.endian = Endian.LITTLE_ENDIAN;
-        	byte_arr.writeInt(value);
-        	
-        	var tmp:String = "";
-        	var first_valid_num:Boolean = false;
-            for(var index:int = byte_arr.length; index > 0; --index)
+            var rtn:String = "";
+            var byte_arr:ByteArray = new ByteArray;
+            var value:int = var_value;
+            byte_arr.endian = Endian.BIG_ENDIAN;
+            byte_arr.writeInt(value);
+
+            for (var index:int = 0; index < byte_arr.length; ++index)
             {
-                var v_b:int = byte_arr[index-1];
-                if (first_valid_num == false && v_b == 0)
-                    continue;
-                first_valid_num = true;
-                tmp += v_b.toString(16);
+                var v_b:int = byte_arr[index];
+                if (v_b < 16)
+                    rtn += '0';
+                rtn += v_b.toString(16);
             }
-            if (tmp == "")
-                rtn += '0';
-            else
-                rtn += tmp;
-        	return rtn;
+            return rtn;
+        }
+        public override function fromXmlValue(value:String):void
+        {
+            var byte_arr:ByteArray = new ByteArray;
+            byte_arr.endian = Endian.BIG_ENDIAN;
+            var v_b:int;
+            var tmp:String;
+
+            for (var index:int = 0; index < value.length; ++index)
+            {
+                tmp = '0x';
+                tmp += value.charAt(index) + value.charAt(++index);
+                v_b = int(tmp);
+                byte_arr.writeByte(v_b);
+            }
+            byte_arr.position = 0;
+            var_value = byte_arr.readInt();
         }
     }
 }

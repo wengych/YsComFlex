@@ -15,23 +15,17 @@ package com.yspay
         	var rtn:String = "";
         	var byte_arr:ByteArray = new ByteArray;
         	var value:int = var_value;
-        	byte_arr.endian = Endian.LITTLE_ENDIAN;
+        	byte_arr.endian = Endian.BIG_ENDIAN;
+        	// byte_arr.writeFloat(value);
         	byte_arr.writeDouble(value);
         	
-        	var tmp:String = "";
-        	var first_valid_num:Boolean = false;
-            for(var index:int = byte_arr.length; index > 0; --index)
+            for(var index:int = 0; index < byte_arr.length; ++index)
             {
-                var v_b:int = byte_arr[index-1];
-                if (first_valid_num == false && v_b == 0)
-                    continue;
-                first_valid_num = true;
-                tmp += v_b.toString(16);
+                var v_b:int = byte_arr[index];
+                if (v_b < 16)
+                    rtn += '0';
+                rtn += v_b.toString(16);
             }
-            if (tmp == "")
-                rtn += '0';
-            else
-                rtn += tmp;
         	return rtn;
         }
     }

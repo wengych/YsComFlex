@@ -1,5 +1,7 @@
 package com.yspay
 {
+    import flash.utils.ByteArray;
+    
     
     public class UserBus extends YsVar
     {
@@ -8,7 +10,7 @@ package com.yspay
         {
             super(key);
             bus_object = new Object;
-            var_type = "HASH";
+            var_type = "USERBUS";
         }
         public function Add(key:String, ys_var:*):void
         {
@@ -22,13 +24,15 @@ package com.yspay
                 AddBoolean(key, ys_var);
             else if (ys_var is String)
                 AddString(key, ys_var);
+            else if (ys_var is ByteArray)
+                AddByteArray(key, ys_var);
         }
         public function AddVar(key:String, ys_var:YsVar):void
         {
-            var user_bus_array:Array;
+            var user_bus_array:YsVarArray;
             if (!bus_object.hasOwnProperty(key))
             {
-                user_bus_array = new Array;
+                user_bus_array = new YsVarArray(new Array, key);
                 ys_var.SetKeyName(key);
                 user_bus_array.push(ys_var);
                 bus_object[key] = user_bus_array;
@@ -60,6 +64,11 @@ package com.yspay
             var ys_var:YsVarString = new YsVarString(value);
             AddVar(key, ys_var);
         }
+        public function AddByteArray(key:String, value:ByteArray):void
+        {
+            var ys_var:YsVarBin = new YsVarBin(value);
+            AddVar(key, ys_var);
+        }
         public function GetBusObject():Object
         {
             return bus_object;
@@ -84,8 +93,8 @@ package com.yspay
             for (var key:String in bus_object)
             {
                 rtn += '\t';
-                var array:Array = bus_object[key];
-                for each(var item:YsVar in array)
+                var array:YsVarArray = bus_object[key];
+                for each(var item:YsVar in array.GetAll())
                     rtn += item.toString();
                 // rtn += array.every(arrayToString);
                 rtn += '\n';
@@ -94,23 +103,16 @@ package com.yspay
         }
         public override function toXml():String
         {
-            var rtn:String = '<NODE KEY="' + var_key + '" TYPE="';
-            rtn += var_type + '">\n';
+            var_xml = new XML('<NODE/>');
+            var_xml.@KEY = var_key;
+            var_xml.@TYPE = var_type;
             
-            for(var key:String in bus_object)
+            for each(var arr:YsVarArray in bus_object)
             {
-                var array:Array = bus_object[key];
-                rtn += '<NODE KEY="' + key + 
-                    '" TYPE="ARRAY" LEN="' + array.length + '">\n';
-                for each(var item:YsVar in array)
-                {
-                    rtn += item.toXml();
-                }
-                rtn += '</NODE>\n';
+                var_xml.appendChild(arr.toXml());
             }
             
-            rtn += '</NODE>';
-            return rtn;
+            return var_xml.toXMLString();
         }
     }
 }
