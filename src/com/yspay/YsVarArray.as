@@ -16,10 +16,12 @@ package com.yspay
             var_xml.@KEY = var_key;
             var_xml.@TYPE = var_type;
             var array_size:int = 0;
+            var child_xml_str:String;
             
             for each(var item:YsVar in var_value)
             {
-                var_xml.appendChild(item.toXml());
+                child_xml_str = item.toXml();
+                var_xml.appendChild(child_xml_str);
                 ++array_size;
             }
             var_xml.@LEN = array_size;

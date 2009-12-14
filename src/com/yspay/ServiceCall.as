@@ -36,6 +36,7 @@ package com.yspay
             if (send_byte_arr == null)
                 return ;
             
+            send_byte_arr.position = 0;
             trace ("send_byte_arr:\n");
             trace (send_byte_arr);
             this.sock.writeBytes(send_byte_arr);

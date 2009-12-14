@@ -10,7 +10,7 @@ package com.yspay
         {
             super(key);
             bus_object = new Object;
-            var_type = "USERBUS";
+            var_type = "HASH";
         }
         public function Add(key:String, ys_var:*):void
         {
