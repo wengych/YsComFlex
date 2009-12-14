@@ -13,6 +13,15 @@ package com.yspay
         protected var bytes_recv:int;
         protected var recv_byte_arr:ByteArray;
         
+        protected function OutputByteArray(bytes:ByteArray):void
+        {
+            var output_string:String = "";
+            for(var idx:int = 0; idx < bytes.length; ++idx)
+            {
+                output_string += bytes[idx] + ' ';
+            }
+            trace (output_string, '\n');
+        }
         public function ServiceCall()
         {
             this.sock = new Socket;
@@ -26,7 +35,7 @@ package com.yspay
             this.send_byte_arr = new ByteArray;
             this.send_byte_arr.endian = Endian.BIG_ENDIAN;
             this.send_byte_arr.writeInt(size);
-            this.send_byte_arr.writeMultiByte(pkg, "");
+            this.send_byte_arr.writeMultiByte(pkg, "CN-GB");
             
             sock.connect(ip, int(port));
         }
@@ -38,7 +47,7 @@ package com.yspay
             
             send_byte_arr.position = 0;
             trace ("send_byte_arr:\n");
-            trace (send_byte_arr);
+            OutputByteArray(send_byte_arr);
             this.sock.writeBytes(send_byte_arr);
             this.send_byte_arr = null;
             this.bytes_recv = -1;
