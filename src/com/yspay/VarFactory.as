@@ -91,7 +91,7 @@ package com.yspay
                     ys_var = array_var;
                     break;
                 }
-                case 'USERBUS':
+                case 'HASH':
                 {
                     var userbus_var:UserBus = new UserBus;
                     userbus_var.SetKeyName(var_key);
