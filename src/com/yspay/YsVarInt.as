@@ -13,7 +13,7 @@ package com.yspay
             var_type = "INT32";
         }
 
-        public override function getXmlValue():String
+        protected override function getXmlValue():String
         {
             var rtn:String = "";
             var byte_arr:ByteArray = new ByteArray;

@@ -12,7 +12,7 @@ package com.yspay
                 var_value = new ByteArray;
             var_type = "BIN";
         }
-        public override function getXmlValue():String
+        protected override function getXmlValue():String
         {
             var rtn:String = "";
             

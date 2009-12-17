@@ -21,6 +21,10 @@ package com.yspay
         {
             return var_key;
         }
+        public function getValue():*
+        {
+            return var_value;
+        }
         public function toString():String
         {
             var rtn:String =  "[" + var_key + " = '";
@@ -32,7 +36,7 @@ package com.yspay
             
             return rtn;
         }
-        public function getXmlValue():String
+        protected function getXmlValue():String
         {
             if (var_value == null)
                 return "";

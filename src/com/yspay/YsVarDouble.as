@@ -10,7 +10,7 @@ package com.yspay
             var_value = value;
             var_type = "DOUBLE";
         }
-        public override function getXmlValue():String
+        protected override function getXmlValue():String
         {
         	var rtn:String = "";
         	var byte_arr:ByteArray = new ByteArray;

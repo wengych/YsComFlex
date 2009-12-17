@@ -35,7 +35,7 @@ package com.yspay
             this.send_byte_arr = new ByteArray;
             this.send_byte_arr.endian = Endian.BIG_ENDIAN;
             this.send_byte_arr.writeInt(size);
-            this.send_byte_arr.writeMultiByte(pkg, "CN-GB");
+            this.send_byte_arr.writeMultiByte(pkg, "");
             
             sock.connect(ip, int(port));
         }
