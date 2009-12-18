@@ -22,6 +22,10 @@ package com.yspay
                 var_xml.appendChild(item.toXml());
                 ++size;
             }
+            if (var_xml.children().length() == 0)
+            {
+                var_xml.appendChild(new XML('<NODE />'));
+            }
             var_xml.@SIZE = size;
             
             return var_xml.toXMLString();

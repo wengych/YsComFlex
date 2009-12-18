@@ -36,6 +36,10 @@ package com.yspay
         {
             return var_value;
         }
+        public function GetAt(idx:int):*
+        {
+            return var_value[idx];
+        }
         public override function SetKeyName(key:String):void
         {
             super.SetKeyName(key);

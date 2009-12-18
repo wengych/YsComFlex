@@ -23,7 +23,6 @@ package com.yspay
             {
                 output_string += bytes[idx] + ' ';
             }
-            trace (output_string, '\n');
         }
         public function ServiceCall()
         {
@@ -36,7 +35,6 @@ package com.yspay
         
         public function Send(pkg:String, ip:String, port:String, func:Function):void
         {
-            trace (pkg);
             var size:int = pkg.length;
             this.send_byte_arr = new ByteArray;
             this.send_byte_arr.endian = Endian.BIG_ENDIAN;
@@ -60,7 +58,6 @@ package com.yspay
                 return ;
             
             send_byte_arr.position = 0;
-            trace ("send_byte_arr:\n");
             OutputByteArray(send_byte_arr);
             this.sock.writeBytes(send_byte_arr);
             this.send_byte_arr = null;
@@ -85,9 +82,7 @@ package com.yspay
                 // this.sock.readBytes(this.recv_byte_arr);
                 // this.sock.close();
                 trace ('service call finish.');
-                this.call_back(
-                    this.sock.readMultiByte(sock.bytesAvailable, "CN-GB"));
-                this.sock.flush();
+                this.call_back(sock);
                 this.sock.close();
                 this.bytes_recv = 0;
             }

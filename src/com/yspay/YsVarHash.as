@@ -75,13 +75,16 @@ package com.yspay
         public function GetVarArray(key:String):Array
         {
             if (hash_object.hasOwnProperty(key))
-                return hash_object[key];
+                return hash_object[key].GetAll();
             return null;
         }
         public function GetFirstVar(key:String):YsVar
         {
             if (hash_object.hasOwnProperty(key))
-                return hash_object[key][0];
+            {
+                var array:YsVarArray = hash_object[key] as YsVarArray;
+                return array.GetAt(0);
+            }
             return null;
         }
         public override function toString():String
