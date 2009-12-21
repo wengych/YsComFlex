@@ -1,11 +1,21 @@
 package com.yspay
 {
+    import flash.utils.ByteArray;
+    import flash.utils.Endian;
+    
     public class YsVar
     {
         protected var var_key:String;
         protected var var_value:*;
         protected var var_type:String;
         protected var var_xml:XML;
+        
+        protected var var_pack:ByteArray;
+        protected var var_type_number:int;
+        protected var var_len_of_all:int;
+        protected var var_len_of_key_h:int; /*高位*/
+        protected var var_len_of_key_l:int; /*低位*/
+        
         public function YsVar(key:String = "")
         {
             var_key = key;
@@ -36,7 +46,8 @@ package com.yspay
             
             return rtn;
         }
-        protected function getXmlValue():String
+
+        protected function getBinValue():String
         {
             if (var_value == null)
                 return "";
@@ -52,9 +63,13 @@ package com.yspay
             var_xml = new XML('<NODE/>');
             var_xml.@KEY = var_key;
             var_xml.@TYPE = var_type;
-            var_xml.text()[0] = getXmlValue();
+            var_xml.text()[0] = getBinValue();
             
             return var_xml.toXMLString();
+        }
+        public function Pack():ByteArray
+        {
+            return null;
         }
     }
 }

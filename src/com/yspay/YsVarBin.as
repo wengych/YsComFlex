@@ -12,7 +12,7 @@ package com.yspay
                 var_value = new ByteArray;
             var_type = "BIN";
         }
-        protected override function getXmlValue():String
+        protected override function getBinValue():String
         {
             var rtn:String = "";
             
@@ -45,7 +45,7 @@ package com.yspay
             if (var_value == null)
                 rtn += 'value is null';
             else
-                rtn += getXmlValue();
+                rtn += getBinValue();
             rtn += "'] ";
             
             return rtn;

@@ -1,5 +1,8 @@
 package com.yspay
 {
+    import flash.utils.ByteArray;
+    import flash.utils.Endian;
+    
     public class YsVarArray extends YsVar
     {
         public function YsVarArray(value:Array = null, key:String="")
@@ -9,6 +12,7 @@ package com.yspay
             if (var_value == null)
                 var_value = new Array;
             var_type = "ARRAY";
+            var_type_number = 0x65;
         }
         public override function toXml():String
         {
@@ -47,6 +51,33 @@ package com.yspay
             {
                 item.SetKeyName(key);
             }
+        }
+        
+        public override function Pack():ByteArray
+        {
+            var array_max_length:int = 0xffffff;
+            
+            var_pack = new ByteArray;
+            var_pack.endian = Endian.BIG_ENDIAN;
+            
+            var_len_of_all = 4/*length of itself*/
+                + 2/*length of len_of_key*/
+                + var_key.length
+                + 4/*length of max*/
+                + 4/*length of size*/;
+            var_len_of_key_h = var_key.length / 0xff;
+            var_len_of_key_l = var_key.length % 0xff;
+            
+            var_pack.writeByte(var_type_number);
+            var_pack.writeInt(var_len_of_all);
+            var_pack.writeByte(var_len_of_key_h);
+            var_pack.writeByte(var_len_of_key_l);
+            
+            var_pack.writeMultiByte(var_key, '');
+            var_pack.writeInt(array_max_length);
+            var_pack.writeInt(var_value.length);
+            
+            return var_pack;
         }
     }
 }
