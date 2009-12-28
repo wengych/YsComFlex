@@ -1,14 +1,18 @@
 package com.yspay
 {
     import flash.utils.ByteArray;
+    import flash.utils.Endian;
+    
     public class YsVarHash extends YsVar
     {
         protected var hash_object:Object;
+        protected static const hash_value:int = 0x11;
         public function YsVarHash(key:String = "HASH")
         {
             super(key);
             hash_object = new Object;
             var_type = "HASH";
+            var_type_number = 0x69;
         }
         public function Add(key:String, ys_var:*):void
         {
@@ -28,7 +32,13 @@ package com.yspay
         public function AddVar(key:String, ys_var:YsVar):void
         {
             var user_bus_array:YsVarArray;
-            if (!hash_object.hasOwnProperty(key))
+            if (ys_var is YsVarArray)
+            {
+                user_bus_array = ys_var as YsVarArray;
+                ys_var.SetKeyName(key);
+                hash_object[key] = user_bus_array;
+            }
+            else if (!hash_object.hasOwnProperty(key))
             {
                 user_bus_array = new YsVarArray(new Array, key);
                 ys_var.SetKeyName(key);
@@ -67,10 +77,10 @@ package com.yspay
             var ys_var:YsVarBin = new YsVarBin(value);
             AddVar(key, ys_var);
         }
-        public function GetBusObject():Object
+        /*public function GetBusObject():Object
         {
             return hash_object;
-        }
+        }*/
         
         public function GetVarArray(key:String):Array
         {
@@ -78,12 +88,12 @@ package com.yspay
                 return hash_object[key].GetAll();
             return null;
         }
-        public function GetFirstVar(key:String):YsVar
+        public function GetFirst(key:String):*
         {
             if (hash_object.hasOwnProperty(key))
             {
                 var array:YsVarArray = hash_object[key] as YsVarArray;
-                return array.GetAt(0);
+                return array.GetAt(0).getValue();
             }
             return null;
         }
@@ -114,6 +124,42 @@ package com.yspay
             }
             
             return var_xml.toXMLString();
+        }
+        public override function Pack():ByteArray
+        {
+            var_pack = new ByteArray;
+            var_pack.endian = Endian.BIG_ENDIAN;
+            
+            var_len_of_all = 4/*length of itself*/
+                + 2/*length of len_of_key*/
+                + var_key.length
+                + 4/*hash value*/
+                + 4/*length of size*/;
+            var_len_of_key_h = var_key.length / 0xff;
+            var_len_of_key_l = var_key.length % 0xff;
+            
+            var_pack.writeByte(var_type_number);
+            var_pack.writeInt(var_len_of_all);
+            var_pack.writeByte(var_len_of_key_h);
+            var_pack.writeByte(var_len_of_key_l);
+            
+            var_pack.writeMultiByte(var_key, '');
+            
+            var_pack.writeInt(hash_value);
+            
+            var size:int = 0;
+            for each (var item:YsVar in hash_object)
+                size++;
+            var_pack.writeInt(size);
+            
+            var item_pack:ByteArray;
+            for each (var ys_var:YsVar in hash_object)
+            {
+                item_pack = ys_var.Pack();
+                var_pack.writeBytes(item_pack);
+            }
+            
+            return var_pack;
         }
     }
 }

@@ -37,12 +37,12 @@ package com.yspay
         }
         public function toString():String
         {
-            var rtn:String =  "[" + var_key + " = '";
+            var rtn:String =  "{" + var_key + " = '";
             if (var_value == null)
                 rtn += 'value is null';
             else
                 rtn += var_value;
-            rtn += "'] ";
+            rtn += "' } ";
             
             return rtn;
         }

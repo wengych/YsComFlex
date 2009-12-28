@@ -27,6 +27,8 @@ package com.yspay
             var var_key:String = xml.@KEY[0];
             var var_len:int;
             
+            var_value = var_value != null ? var_value : "";
+            
             var child:XML; // for userbus or struct or array
             var child_var:YsVar; // for userbus or struct or array
             switch (var_type)

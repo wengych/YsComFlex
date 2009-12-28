@@ -1,6 +1,8 @@
 package com.yspay
 {
     import flash.utils.ByteArray;
+    import flash.utils.Endian;
+    
     public class YsVarStruct extends YsVar
     {
         public function YsVarStruct(value:Object = null, key:String="")
@@ -10,6 +12,7 @@ package com.yspay
             if (var_value == null)
                 var_value = new Object;
             var_type = "STRUCT";
+            var_type_number = 0x0a;
         }
         public override function toXml():String
         {
@@ -84,6 +87,39 @@ package com.yspay
         {
             var ys_var:YsVarBin = new YsVarBin(value);
             AddVar(key, ys_var);
+        }
+        public override function Pack():ByteArray
+        {
+            var_pack = new ByteArray;
+            var_pack.endian = Endian.BIG_ENDIAN;
+            
+            var_len_of_all = 4/*length of itself*/
+                + 2/*length of len_of_key*/
+                + var_key.length
+                + 4/*length of size*/;
+            var_len_of_key_h = var_key.length / 0xff;
+            var_len_of_key_l = var_key.length % 0xff;
+            
+            var_pack.writeByte(var_type_number);
+            var_pack.writeInt(var_len_of_all);
+            var_pack.writeByte(var_len_of_key_h);
+            var_pack.writeByte(var_len_of_key_l);
+            
+            var_pack.writeMultiByte(var_key, '');
+            
+            var size:int = 0;
+            for each (var item:YsVar in var_value)
+                size++;
+            var_pack.writeInt(size);
+            
+            var item_pack:ByteArray;
+            for each (var ys_var:YsVar in var_value)
+            {
+                item_pack = ys_var.Pack();
+                var_pack.writeBytes(item_pack);
+            }
+            
+            return var_pack;
         }
     }
 }

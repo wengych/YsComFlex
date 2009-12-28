@@ -4,8 +4,11 @@
 <compilerSourcePath/>
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
+<libraryPathEntry kind="1" linkType="1" path="D:/Develop/as3corelib-.92.1/lib"/>
 </libraryPath>
-<sourceAttachmentPath/>
+<sourceAttachmentPath>
+<sourceAttachmentPathEntry kind="3" linkType="1" path="D:/Develop/as3corelib-.92.1/lib/as3corelib.swc" sourcepath="D:/Develop/as3corelib-.92.1/src" useDefaultLinkType="false"/>
+</sourceAttachmentPath>
 </compiler>
 <applications>
 <application path="YsComFlex.as"/>

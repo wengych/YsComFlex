@@ -52,7 +52,52 @@ package com.yspay
                 item.SetKeyName(key);
             }
         }
-        
+        public function Add(ys_var:*):void
+        {
+            if (ys_var is YsVar)
+                AddVar(ys_var);
+            else if (ys_var is int)
+                AddInt(ys_var);
+            else if (ys_var is Number)
+                AddDouble(ys_var);
+            else if (ys_var is Boolean)
+                AddBoolean(ys_var);
+            else if (ys_var is String)
+                AddString(ys_var);
+            else if (ys_var is ByteArray)
+                AddByteArray(ys_var);
+        }
+        public function AddVar(ys_var:YsVar):void
+        {
+            if (ys_var.GetKeyName() != var_key)
+                ys_var.SetKeyName(var_key);
+            var_value.push(ys_var);
+        }
+        public function AddInt(value:int):void
+        {
+            var ys_var:YsVarInt = new YsVarInt(value, var_key);
+            AddVar(ys_var);
+        }
+        public function AddDouble(value:Number):void
+        {
+            var ys_var:YsVarDouble = new YsVarDouble(value, var_key);
+            AddVar(ys_var);
+        }
+        public function AddBoolean(value:Boolean):void
+        {
+            var ys_var:YsVarBool = new YsVarBool(value, var_key);
+            AddVar(ys_var);
+        }
+        public function AddString(value:String):void
+        {
+            var ys_var:YsVarString = new YsVarString(value, var_key);
+            AddVar(ys_var);
+        }
+        public function AddByteArray(value:ByteArray):void
+        {
+            var ys_var:YsVarBin = new YsVarBin(value, var_key);
+            AddVar(ys_var);
+        }
         public override function Pack():ByteArray
         {
             var array_max_length:int = 0xffffff;
@@ -77,7 +122,25 @@ package com.yspay
             var_pack.writeInt(array_max_length);
             var_pack.writeInt(var_value.length);
             
+            var item_pack:ByteArray;
+            for each (var ys_var:YsVar in var_value)
+            {
+                item_pack = ys_var.Pack();
+                var_pack.writeBytes(item_pack);
+            }
+            
             return var_pack;
+        }
+        public override function toString():String
+        {
+            var rtn:String =  "[" + var_key + " = '";
+            if (var_value == null)
+                rtn += 'value is null';
+            else
+                rtn += var_value;
+            rtn += "' ] ";
+            
+            return rtn;
         }
     }
 }
