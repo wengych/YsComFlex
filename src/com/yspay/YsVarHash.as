@@ -3,14 +3,13 @@ package com.yspay
     import flash.utils.ByteArray;
     import flash.utils.Endian;
     
-    public class YsVarHash extends YsVar
+    public dynamic class YsVarHash extends YsVar
     {
         protected var hash_object:Object;
         protected static const hash_value:int = 0x11;
         public function YsVarHash(key:String = "HASH")
         {
             super(key);
-            hash_object = new Object;
             var_type = "HASH";
             var_type_number = 0x69;
         }
@@ -36,20 +35,26 @@ package com.yspay
             {
                 user_bus_array = ys_var as YsVarArray;
                 ys_var.SetKeyName(key);
-                hash_object[key] = user_bus_array;
+                this[key] = user_bus_array;
+                
+                // this[key] = user_bus_array;
             }
-            else if (!hash_object.hasOwnProperty(key))
+            else if (!this.hasOwnProperty(key))
             {
                 user_bus_array = new YsVarArray(new Array, key);
                 ys_var.SetKeyName(key);
                 user_bus_array.push(ys_var);
-                hash_object[key] = user_bus_array;
+                this[key] = user_bus_array;
+                
+                // this[key] = user_bus_array;
             }
             else
             {
-                user_bus_array = hash_object[key];
+                user_bus_array = this[key];
                 ys_var.SetKeyName(key);
                 user_bus_array.push(ys_var);
+                
+                this[key] = user_bus_array;
             }
         }
         public function AddInt(key:String, value:int):void
@@ -84,33 +89,37 @@ package com.yspay
         
         public function GetVarArray(key:String):Array
         {
-            if (hash_object.hasOwnProperty(key))
-                return hash_object[key].GetAll();
+            if (this.hasOwnProperty(key))
+                return this[key].GetAll();
             return null;
         }
         public function GetFirst(key:String):*
         {
-            if (hash_object.hasOwnProperty(key))
+            if (this.hasOwnProperty(key))
             {
-                var array:YsVarArray = hash_object[key] as YsVarArray;
+                var array:YsVarArray = this[key] as YsVarArray;
                 return array.GetAt(0).getValue();
             }
             return null;
         }
-        public override function toString():String
+        public override function toLocalString():String
         {
             var rtn:String = var_key + ":\n";
             
-            for (var key:String in hash_object)
+            for (var key:String in this)
             {
                 rtn += '\t';
-                var array:YsVarArray = hash_object[key];
+                var array:YsVarArray = this[key];
                 for each(var item:YsVar in array.GetAll())
-                    rtn += item.toString();
+                    rtn += item.toLocalString();
                 // rtn += array.every(arrayToString);
                 rtn += '\n';
             }
             return rtn;
+        }
+        public override function toString():String
+        {
+            return toLocalString();
         }
         public override function toXml():String
         {
@@ -118,7 +127,7 @@ package com.yspay
             var_xml.@KEY = var_key;
             var_xml.@TYPE = var_type;
             
-            for each(var arr:YsVarArray in hash_object)
+            for each(var arr:YsVarArray in this)
             {
                 var_xml.appendChild(arr.toXml());
             }
@@ -148,12 +157,12 @@ package com.yspay
             var_pack.writeInt(hash_value);
             
             var size:int = 0;
-            for each (var item:YsVar in hash_object)
+            for each (var item:YsVar in this)
                 size++;
             var_pack.writeInt(size);
             
             var item_pack:ByteArray;
-            for each (var ys_var:YsVar in hash_object)
+            for each (var ys_var:YsVar in this)
             {
                 item_pack = ys_var.Pack();
                 var_pack.writeBytes(item_pack);

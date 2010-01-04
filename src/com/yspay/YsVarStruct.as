@@ -3,14 +3,11 @@ package com.yspay
     import flash.utils.ByteArray;
     import flash.utils.Endian;
     
-    public class YsVarStruct extends YsVar
+    public dynamic class YsVarStruct extends YsVar
     {
-        public function YsVarStruct(value:Object = null, key:String="")
+        public dynamic function YsVarStruct(key:String="")
         {
             super(key);
-            var_value = value;
-            if (var_value == null)
-                var_value = new Object;
             var_type = "STRUCT";
             var_type_number = 0x0a;
         }
@@ -20,7 +17,7 @@ package com.yspay
             var_xml.@KEY = var_key;
             var_xml.@TYPE = var_type;
             var size:int = 0;
-            for each(var item:YsVar in var_value)
+            for each(var item:YsVar in this)
             {
                 var_xml.appendChild(item.toXml());
                 ++size;
@@ -33,15 +30,19 @@ package com.yspay
             
             return var_xml.toXMLString();
         }
-        public override function toString():String
+        public override function toLocalString():String
         {
             var rtn:String = var_key + ":";
             
-            for each(var ys_var:YsVar in var_value)
+            for each(var ys_var:YsVar in this)
             {
-                rtn += '\t' + ys_var.toString();
+                rtn += '\t' + ys_var.toLocalString();
             }
             return rtn;
+        }
+        public override function toString():String
+        {
+            return toLocalString();
         }
         public function Add(key:String, ys_var:*):void
         {
@@ -60,7 +61,7 @@ package com.yspay
         }
         public function AddVar(key:String, ys_var:YsVar):void
         {
-            var_value[key] = ys_var;
+            this[key] = ys_var;
             ys_var.SetKeyName(key);
         }
         public function AddInt(key:String, value:int):void
@@ -108,12 +109,12 @@ package com.yspay
             var_pack.writeMultiByte(var_key, '');
             
             var size:int = 0;
-            for each (var item:YsVar in var_value)
+            for each (var item:YsVar in this)
                 size++;
             var_pack.writeInt(size);
             
             var item_pack:ByteArray;
-            for each (var ys_var:YsVar in var_value)
+            for each (var ys_var:YsVar in this)
             {
                 item_pack = ys_var.Pack();
                 var_pack.writeBytes(item_pack);

@@ -131,7 +131,7 @@ package com.yspay
             
             return var_pack;
         }
-        public override function toString():String
+        public override function toLocalString():String
         {
             var rtn:String =  "[" + var_key + " = '";
             if (var_value == null)
@@ -141,6 +141,10 @@ package com.yspay
             rtn += "' ] ";
             
             return rtn;
+        }
+        public override function toString():String
+        {
+            return toLocalString();
         }
     }
 }

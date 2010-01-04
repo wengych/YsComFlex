@@ -53,7 +53,7 @@ package com.yspay
             this.sock.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
         }
 
-        public function Send(bus:UserBus, ip:String, port:String, func:Function, req_bus_type:String = REQ_TYPE_BIN, resp_bus_type:String = RESP_TYPE_XML):void
+        public function Send(bus:UserBus, ip:String, port:String, func:Function, req_bus_type:String = REQ_TYPE_BIN, resp_bus_type:String = RESP_TYPE_BIN):void
         {
             var len_of_len:int = 0;
             var req_head_obj:Object = new Object;
@@ -230,34 +230,19 @@ package com.yspay
                     trace('xml string:\n', xml_string);
                     trace('xml length: ', xml_string.length);
                     // try {
-                    bus = factory.GetUserBus(new XML(xml_string));
+                    bus = VarFactory.GetUserBus(new XML(xml_string));
                         // } catch (error:Error) {
                         //     trace (error.name, ' : ', error.message);
                         // }
+                }
+                else if (resp_head['resptype'] == ServiceCall.RESP_TYPE_BIN)
+                {
+                    bus = VarFactory.GetUserBus(resp_body);
                 }
                 call_back(resp_head, bus);
 
                 sock.close();
             }
-        /*
-           if (this.bytes_recv == -1)
-           {
-           if (event.bytesLoaded > 4)
-           {
-           this.bytes_recv = this.sock.readInt();
-           }
-           }
-           if (this.sock.bytesAvailable >= this.bytes_recv)
-           {
-           this.recv_byte_arr = new ByteArray;
-           // this.sock.readBytes(this.recv_byte_arr);
-           // this.sock.close();
-           trace('service call finish.');
-           this.call_back(sock);
-           this.sock.close();
-           this.bytes_recv = 0;
-           }
-         */
         }
 
         private function Bytes2String(bytes:ByteArray):String

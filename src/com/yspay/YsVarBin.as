@@ -1,6 +1,7 @@
 package com.yspay
 {
     import flash.utils.ByteArray;
+    import flash.utils.Endian;
     
     public class YsVarBin extends YsVar
     {
@@ -11,6 +12,7 @@ package com.yspay
             if (var_value == null)
                 var_value = new ByteArray;
             var_type = "BIN";
+            var_type_number = 0x07;
         }
         protected override function getBinValue():String
         {
@@ -39,7 +41,7 @@ package com.yspay
                 var_value.writeByte(v_b);
             }
         }
-        public override function toString():String
+        public override function toLocalString():String
         {
             var rtn:String =  "[" + var_key + " = '";
             if (var_value == null)
@@ -49,6 +51,28 @@ package com.yspay
             rtn += "'] ";
             
             return rtn;
+        }
+        public override function Pack():ByteArray
+        {
+            var_pack = new ByteArray;
+            var_pack.endian = Endian.BIG_ENDIAN;
+            
+            var_len_of_all = 4/*length of itself*/
+                + 2/*length of len_of_key*/
+                + var_key.length
+                + var_value.length;
+            var_len_of_key_h = var_key.length / 0xff;
+            var_len_of_key_l = var_key.length % 0xff;
+            
+            var_pack.writeByte(var_type_number);
+            var_pack.writeInt(var_len_of_all);
+            var_pack.writeByte(var_len_of_key_h);
+            var_pack.writeByte(var_len_of_key_l);
+            
+            var_pack.writeMultiByte(var_key, '');
+            var_pack.writeMultiByte(var_value, '');
+            
+            return var_pack;
         }
     }
 }
