@@ -44,6 +44,10 @@ package com.yspay
         {
             return var_value[idx];
         }
+        public function get first():*
+        {
+            return GetAt(0).getValue();
+        }
         public override function SetKeyName(key:String):void
         {
             super.SetKeyName(key);

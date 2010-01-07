@@ -1,7 +1,7 @@
 package com.yspay
 {
     import com.adobe.serialization.json.*;
-
+    
     import flash.events.Event;
     import flash.events.IOErrorEvent;
     import flash.events.ProgressEvent;
@@ -23,6 +23,7 @@ package com.yspay
         protected var resp_body_len:int; // length of body.
 
         protected var call_back:Function;
+        // protected var call_back_args:SCallArgs;
 
         public static const SCALL_NAME:String = '__DICT_SCALL_NAME';
         public static const REQ_TYPE_XML:String = "xml2userbus";
@@ -70,8 +71,8 @@ package com.yspay
             req_head.writeMultiByte(tmp, char_set);
             var head_len:int = req_head.length;
 
-            trace('head_len', head_len);
-            trace('req_head', tmp);
+            // trace('head_len', head_len);
+            // trace('req_head', tmp);
 
             var req_body:ByteArray = new ByteArray;
             var body_len:int;
@@ -83,16 +84,16 @@ package com.yspay
                 req_body.writeMultiByte(xml_string, char_set);
                 body_len = req_body.length;
 
-                trace('body_len', body_len);
-                trace('req_body', xml_string);
+                // trace('body_len', body_len);
+                // trace('req_body', xml_string);
             }
             else if (req_bus_type == REQ_TYPE_BIN)
             {
                 req_body = bus.Pack();
                 body_len = req_body.length;
                 
-                trace('body_len', body_len);
-                trace('req_body', req_body);
+                // trace('body_len', body_len);
+                // trace('req_body', req_body);
             }
 
             this.send_byte_arr = new ByteArray;
@@ -109,8 +110,9 @@ package com.yspay
             this.send_byte_arr.writeBytes(req_body);
 
             this.call_back = func;
+            // this.call_back_args = (args == null ? new SCallArgs : args);
 
-            trace('ip: ', ip, 'port: ', port);
+            // trace('ip: ', ip, 'port: ', port);
             sock.connect(ip, int(port));
         }
 
@@ -128,7 +130,7 @@ package com.yspay
         {
             if (send_byte_arr == null)
                 return;
-            trace(Bytes2String(send_byte_arr));
+            // trace(Bytes2String(send_byte_arr));
 
             this.sock.endian = Endian.BIG_ENDIAN;
 
@@ -193,7 +195,9 @@ package com.yspay
                     // error occured here.
                     // do callback.
                     trace('No response body!');
-                    call_back(resp_head, null);
+                    // call_back_args.json_head = resp_head;
+                    // call_back_args.user_bus = null;
+                    call_back(null);// call_back_args);
                     if (sock.connected)
                         sock.close();
                     return;
@@ -216,8 +220,8 @@ package com.yspay
 
                 // get response body.
                 resp_body = new ByteArray;
-                trace('resp_body_len: ', resp_body_len);
-                trace('sock.bytesAvl: ', sock.bytesAvailable);
+                // trace('resp_body_len: ', resp_body_len);
+                // trace('sock.bytesAvl: ', sock.bytesAvailable);
                 sock.readBytes(resp_body, 0, resp_body_len);
 
                 // response get over.
@@ -227,8 +231,8 @@ package com.yspay
                 if (resp_head['resptype'] == ServiceCall.RESP_TYPE_XML)
                 {
                     var xml_string:String = resp_body.readMultiByte(resp_body_len, char_set);
-                    trace('xml string:\n', xml_string);
-                    trace('xml length: ', xml_string.length);
+                    // trace('xml string:\n', xml_string);
+                    // trace('xml length: ', xml_string.length);
                     // try {
                     bus = VarFactory.GetUserBus(new XML(xml_string));
                         // } catch (error:Error) {
@@ -239,7 +243,10 @@ package com.yspay
                 {
                     bus = VarFactory.GetUserBus(resp_body);
                 }
-                call_back(resp_head, bus);
+                
+                // call_back_args.json_head = resp_head;
+                // call_back_args.user_bus = bus;
+                call_back(bus);// call_back_args);
 
                 sock.close();
             }

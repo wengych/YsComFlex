@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flexLibProperties version="1">
 <includeClasses>
-<classEntry path="com.yspay.YsVarString"/>
+<classEntry path="com.yspay.TableInfo.TableInfo"/>
 <classEntry path="com.yspay.YsVarBool"/>
+<classEntry path="com.yspay.YsVarString"/>
 <classEntry path="com.yspay.VarFactory"/>
+<classEntry path="com.yspay.Pool"/>
+<classEntry path="com.yspay.TableInfo.Dict"/>
 <classEntry path="com.yspay.YsVarHash"/>
 <classEntry path="com.yspay.YsVarStruct"/>
 <classEntry path="com.yspay.UserBus"/>
 <classEntry path="com.yspay.VarTypeDict"/>
-<classEntry path="com.yspay.YsVarArray"/>
+<classEntry path="com.yspay.TableInfo.DtsArray"/>
 <classEntry path="com.yspay.ServiceCall"/>
+<classEntry path="com.yspay.YsVarArray"/>
 <classEntry path="com.yspay.YsVarInt"/>
 <classEntry path="com.yspay.YsVar"/>
+<classEntry path="com.yspay.FunctionDelegate"/>
 <classEntry path="com.yspay.YsVarBin"/>
 <classEntry path="com.yspay.YsVarDouble"/>
 </includeClasses>

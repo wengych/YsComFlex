@@ -38,10 +38,10 @@ package com.yspay
             var var_key_len:int = bytes.readByte() * 0xff + bytes.readByte();
             var var_key:String = bytes.readMultiByte(var_key_len, '');
             
-            trace (VarTypeDict.FindType(var_type));
-            trace ('var_len: ', var_len);
-            trace ('var_key_len: ', var_key_len);
-            trace ('var_key: ', var_key);
+            // trace (VarTypeDict.FindType(var_type));
+            // trace ('var_len: ', var_len);
+            // trace ('var_key_len: ', var_key_len);
+            // trace ('var_key: ', var_key);
             
             var var_body_len:int = var_len - var_key_len - 4/*len of len*/ - 2/*len of key len*/;
             switch (VarTypeDict.FindType(var_type))
