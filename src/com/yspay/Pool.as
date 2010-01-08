@@ -1,25 +1,32 @@
 package com.yspay
 {
-    import com.yspay.TableInfo.TableInfo;
-    
-    import flash.events.EventDispatcher;
-    
-    public class Pool
+
+    public dynamic class Pool
     {
-        public static const info_scall_name:String = 'YSDBSTB_DTSINFOSelect';
-        public static const table_info_init_event:String = 'table_info_init_event';
-        public static const dict_init_event:String = 'dict_init_event';
-        public static var IP:String;
-        public static var PORT:String;
-        public static var DISPATCHER:EventDispatcher;
-        
-        public function Pool(ip:String, port:String, dispatcher:EventDispatcher)
+        public function Pool()
         {
-            IP = ip;
-            PORT = port;
-            DISPATCHER = dispatcher;
-            info = new TableInfo(dispatcher);
         }
-        public var info:TableInfo;
+
+        public var pool_objects:Object = new Object;
+
+        public function Add(key:String, object_type:Class, ... init_arg_list):void
+        {
+            this[key] = pool_objects[key] = new object_type(init_arg_list);
+        }
+
+        public function Get(key:String):*
+        {
+            return this[key];
+        }
+
+        public function GetAll():Object
+        {
+            return pool_objects;
+        }
+
+        public function GetEvent(key:String):String
+        {
+            return Get(key).event_name;
+        }
     }
 }

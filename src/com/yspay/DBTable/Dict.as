@@ -1,4 +1,4 @@
-package com.yspay.TableInfo
+package com.yspay.DBTable
 {
     import com.yspay.*;
 
@@ -14,12 +14,12 @@ package com.yspay.TableInfo
             var bus:UserBus = new UserBus;
             var service_call:ServiceCall = new ServiceCall;
 
-            bus.Add(ServiceCall.SCALL_NAME, Pool.info_scall_name);
+            bus.Add(ServiceCall.SCALL_NAME, '');//Pool.info_scall_name);
             bus.Add('YSDICT_DB_TB_STARTPOS', 0);
             bus.Add('YSDICT_DB_TB_ENDPOS', 10000);
             bus.Add('__DICT_IN', "type='DICT' and appname='MapServer'");
             var func_dele:FunctionDelegate = new FunctionDelegate;
-            service_call.Send(bus, Pool.IP, Pool.PORT, func_dele.create(DictInit, disp));
+            service_call.Send(bus, '', '', DictInit);//Pool.IP, Pool.PORT, func_dele.create(DictInit, disp));
         }
 
         protected function DictInit(bus:UserBus, dispatcher:EventDispatcher):void
@@ -44,7 +44,7 @@ package com.yspay.TableInfo
                 }
             }
 
-            dispatcher.dispatchEvent(new Event(Pool.dict_init_event));
+            dispatcher.dispatchEvent(new Event(''));//Pool.dict_init_event));
         }
 
         public function CacheDTS(dts_value:String, dts_ver:String = ''):void
@@ -68,7 +68,7 @@ package com.yspay.TableInfo
 
                 this[dts_value][dts_ver].CACHE_STATUS = 'caching';
                 var func_dele:FunctionDelegate = new FunctionDelegate;
-                service_call.Send(bus, Pool.IP, Pool.PORT, func_dele.create(dict_call_back, func_args));
+                service_call.Send(bus, '', '', dict_call_back); // Pool.IP, Pool.PORT, func_dele.create(dict_call_back, func_args));
             }
         }
 

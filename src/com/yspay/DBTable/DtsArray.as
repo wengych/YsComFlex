@@ -1,4 +1,4 @@
-package com.yspay.TableInfo
+package com.yspay.DBTable
 {
     import com.yspay.YsVarStruct;
     

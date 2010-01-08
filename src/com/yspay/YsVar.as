@@ -36,6 +36,11 @@ package com.yspay
         {
             return var_value;
         }
+		
+		public function get value():*
+		{
+			return getValue();
+		}
 
         public function toLocalString():String
         {
