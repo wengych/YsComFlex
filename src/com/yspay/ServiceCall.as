@@ -64,7 +64,7 @@ package com.yspay
             req_head_obj['reqtype'] = req_bus_type;
             req_head_obj['respflag'] = true;
             req_head_obj['resptype'] = resp_bus_type;
-            req_head_obj['active'] = bus.GetFirst(UserBus.SERVICE_CALL_NAME) as String;
+            req_head_obj['active'] = bus.GetFirst(SCALL_NAME) as String;
 
             var req_head:ByteArray = new ByteArray;
             var tmp:String = JSON.encode(req_head_obj);

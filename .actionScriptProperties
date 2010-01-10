@@ -22,7 +22,7 @@
           </libraryPathEntry>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="1" linkType="2" path="D:/Develop/as3corelib-.92.1/lib"/>
+      <libraryPathEntry kind="1" linkType="1" path="D:/Develop/as3corelib-.92.1/lib"/>
     </libraryPath>
     <sourceAttachmentPath>
       <sourceAttachmentPathEntry kind="3" linkType="1" path="D:/Develop/as3corelib-.92.1/lib/as3corelib.swc" sourcepath="D:/Develop/as3corelib-.92.1/src" useDefaultLinkType="false"/>

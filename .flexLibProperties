@@ -6,7 +6,7 @@
     <classEntry path="com.yspay.DBTable.Dict"/>
     <classEntry path="com.yspay.DBTable.DtsArray"/>
     <classEntry path="com.yspay.DBTable.Query"/>
-    <classEntry path="com.yspay.FunctionDelegate"/>
+    <classEntry path="com.yspay.FunctionHelper"/>
     <classEntry path="com.yspay.Pool"/>
     <classEntry path="com.yspay.ServiceCall"/>
     <classEntry path="com.yspay.UserBus"/>
@@ -21,6 +21,7 @@
     <classEntry path="com.yspay.YsVarInt"/>
     <classEntry path="com.yspay.YsVarString"/>
     <classEntry path="com.yspay.YsVarStruct"/>
+    <classEntry path="com.yspay.DBTable.DBTableQueryEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

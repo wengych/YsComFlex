@@ -18,7 +18,7 @@ package com.yspay.DBTable
             bus.Add('YSDICT_DB_TB_STARTPOS', 0);
             bus.Add('YSDICT_DB_TB_ENDPOS', 10000);
             bus.Add('__DICT_IN', "type='DICT' and appname='MapServer'");
-            var func_dele:FunctionDelegate = new FunctionDelegate;
+            var func_dele:FunctionHelper = new FunctionHelper;
             service_call.Send(bus, '', '', DictInit);//Pool.IP, Pool.PORT, func_dele.create(DictInit, disp));
         }
 
@@ -67,7 +67,7 @@ package com.yspay.DBTable
                 delete func_args.TEST;
 
                 this[dts_value][dts_ver].CACHE_STATUS = 'caching';
-                var func_dele:FunctionDelegate = new FunctionDelegate;
+                var func_dele:FunctionHelper = new FunctionHelper;
                 service_call.Send(bus, '', '', dict_call_back); // Pool.IP, Pool.PORT, func_dele.create(dict_call_back, func_args));
             }
         }
@@ -93,7 +93,7 @@ package com.yspay.DBTable
         public function GetDTSXml(dts_value:String, dts_ver:String, disp:EventDispatcher = null):void
         {
             var dts_obj:Object = this[dts_value][dts_ver];
-            var func_dele:FunctionDelegate = new FunctionDelegate;
+            var func_dele:FunctionHelper = new FunctionHelper;
             if (dts_obj.DTS_XML == null)
             {
                 // 已经发送ServiceCall请求，尚未收到call_back

@@ -1,25 +1,32 @@
 package com.yspay.DBTable
 {
-    import com.yspay.ServiceCall;
-    import com.yspay.UserBus;
-
-    import flash.events.Event;
-    import flash.events.EventDispatcher;
+	import com.yspay.UserBus;
+	import com.yspay.YsVarStruct;
 
     public dynamic class Query
     {
-        public function Query(table:DBTable, condition:String, dispatcher:EventDispatcher)
+        public function Query()
         {
-            this.TABLE = table;
-            this.CONDITION = condition;
-            this.DISPATCHER = dispatcher;
         }
-
-        public function doQuery():void
-        {
-            var bus:UserBus = new UserBus;
-            var service_call:ServiceCall = new ServiceCall;
-            this.DISPATCHER.dispatchEvent(new Event(this.TABLE.event_name));
-        }
+		public function SetIndex(bus:UserBus, table:DBTable, indexes:Array):void
+		{
+			var index_len:int = indexes.length;
+			var out_arr:Array = bus[table.output_arg].GetAll();
+			if (null == out_arr || 0 == out_arr.length)
+				throw String ("Query.SetIndex : get output array from user bus failed!");
+			
+			for each(var row:YsVarStruct in out_arr)
+			{
+				for (var idx:uint = 0; idx < indexes.length; ++idx)
+				{
+					if ( (idx + 1) < indexes.length )
+						this[ indexes[idx] ] = new Object;
+					else
+						;
+				}
+				
+					// row;
+			}
+		}
     }
 }

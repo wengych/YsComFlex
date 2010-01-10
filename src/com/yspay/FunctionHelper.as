@@ -5,7 +5,7 @@ package com.yspay
     
     // 基于类的方式，需要使用此伪装类时必须创建该类的对象
     // 由于静态类无法在异步条件下安全的携带属性传递，所以以类的方式创建
-    public class FunctionDelegate
+    public class FunctionHelper
     {
         protected var my_arg:Object;
         protected var my_func:Function;

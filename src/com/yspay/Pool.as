@@ -16,7 +16,7 @@ package com.yspay
 
         public function Get(key:String):*
         {
-            return this[key];
+            return pool_objects[key];
         }
 
         public function GetAll():Object
