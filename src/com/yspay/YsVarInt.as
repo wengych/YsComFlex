@@ -6,7 +6,7 @@ package com.yspay
     // Int32
     public class YsVarInt extends YsVar
     {
-        public function YsVarInt(value:int = 0, key:String = "")
+        public function YsVarInt(value:int=0, key:String="")
         {
             super(key);
             var_value = value;
@@ -31,6 +31,7 @@ package com.yspay
             }
             return rtn;
         }
+
         public override function fromXmlValue(value:String):void
         {
             var byte_arr:ByteArray = new ByteArray;
@@ -48,26 +49,24 @@ package com.yspay
             byte_arr.position = 0;
             var_value = byte_arr.readInt();
         }
+
         public override function Pack():ByteArray
         {
             var_pack = new ByteArray;
             var_pack.endian = Endian.BIG_ENDIAN;
-            
-            var_len_of_all = 4/*length of itself*/
-                + 2/*length of len_of_key*/
-                + var_key.length
-                + 4/*length of an int*/;
+
+            var_len_of_all = 4 /*length of itself*/ + 2 /*length of len_of_key*/ + var_key.length + 4 /*length of an int*/;
             var_len_of_key_h = var_key.length / 0xff;
             var_len_of_key_l = var_key.length % 0xff;
-            
+
             var_pack.writeByte(var_type_number);
             var_pack.writeInt(var_len_of_all);
             var_pack.writeByte(var_len_of_key_h);
             var_pack.writeByte(var_len_of_key_l);
-            
+
             var_pack.writeMultiByte(var_key, '');
             var_pack.writeInt(var_value);
-            
+
             return var_pack;
         }
     }

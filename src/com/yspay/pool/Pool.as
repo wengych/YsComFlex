@@ -1,4 +1,4 @@
-package com.yspay
+package com.yspay.pool
 {
 
     public dynamic class Pool
@@ -11,7 +11,8 @@ package com.yspay
 
         public function Add(key:String, object_type:Class, ... init_arg_list):void
         {
-            this[key] = pool_objects[key] = new object_type(init_arg_list);
+            this[key] = pool_objects[key] = new object_type();
+            this[key].init.apply(this[key], init_arg_list);
         }
 
         public function Get(key:String):*

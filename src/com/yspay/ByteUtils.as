@@ -1,6 +1,7 @@
 package com.yspay
 {
     import flash.utils.ByteArray;
+
     public class ByteUtils
     {
         public function ByteUtils()

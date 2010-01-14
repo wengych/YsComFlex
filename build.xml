@@ -1,0 +1,21 @@
+<project name="YsComFlex" basedir=".">
+    <property   environment="env"/>
+    <property name="FLEX_HOME" value="${env.FLEX_SDK_HOME}" />
+    <property name="APP_ROOT" value="${basedir}" />
+    <property name="src-dir" value="${APP_ROOT}/src" />
+    <property name="output-dir" value="${APP_ROOT}/swc" />
+    <property name="output-file" value="YsComFlex.swc" />
+
+    <taskdef resource="flexTasks.tasks"
+        classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+    <target name="main">
+        <compc as3="true" ic="com.yspay.ByteUtils com.yspay.FunctionHelper com.yspay.ServiceCall com.yspay.UserBus com.yspay.VarFactory com.yspay.VarTypeDict com.yspay.YsVar com.yspay.YsVarArray com.yspay.YsVarBin com.yspay.YsVarBool com.yspay.YsVarDouble com.yspay.YsVarHash com.yspay.YsVarInt com.yspay.YsVarString com.yspay.YsVarStruct com.yspay.pool.DBTable com.yspay.pool.DBTableQueryEvent com.yspay.pool.Pool com.yspay.pool.QueryWithIndex com.yspay.pool.Query " output="libs/YsComFlex.swc">
+            <source-path path-element="src" />
+            <library-path dir="D:/Develop/as3corelib-.92.1/lib/">
+                <include name="*.swc" />
+            </library-path>
+        </compc>
+    </target>
+</project>
+

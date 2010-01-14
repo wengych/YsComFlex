@@ -1,7 +1,7 @@
 package com.yspay
 {
     import com.adobe.serialization.json.*;
-    
+
     import flash.events.Event;
     import flash.events.IOErrorEvent;
     import flash.events.ProgressEvent;
@@ -54,7 +54,7 @@ package com.yspay
             this.sock.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
         }
 
-        public function Send(bus:UserBus, ip:String, port:String, func:Function, req_bus_type:String = REQ_TYPE_BIN, resp_bus_type:String = RESP_TYPE_BIN):void
+        public function Send(bus:UserBus, ip:String, port:String, func:Function, req_bus_type:String=REQ_TYPE_BIN, resp_bus_type:String=RESP_TYPE_BIN):void
         {
             var len_of_len:int = 0;
             var req_head_obj:Object = new Object;
@@ -84,16 +84,16 @@ package com.yspay
                 req_body.writeMultiByte(xml_string, char_set);
                 body_len = req_body.length;
 
-                // trace('body_len', body_len);
-                // trace('req_body', xml_string);
+                    // trace('body_len', body_len);
+                    // trace('req_body', xml_string);
             }
             else if (req_bus_type == REQ_TYPE_BIN)
             {
                 req_body = bus.Pack();
                 body_len = req_body.length;
-                
-                // trace('body_len', body_len);
-                // trace('req_body', req_body);
+
+                    // trace('body_len', body_len);
+                    // trace('req_body', req_body);
             }
 
             this.send_byte_arr = new ByteArray;
@@ -197,7 +197,7 @@ package com.yspay
                     trace('No response body!');
                     // call_back_args.json_head = resp_head;
                     // call_back_args.user_bus = null;
-                    call_back(null);// call_back_args);
+                    call_back(null); // call_back_args);
                     if (sock.connected)
                         sock.close();
                     return;
@@ -243,10 +243,10 @@ package com.yspay
                 {
                     bus = VarFactory.GetUserBus(resp_body);
                 }
-                
+
                 // call_back_args.json_head = resp_head;
                 // call_back_args.user_bus = bus;
-                call_back(bus);// call_back_args);
+                call_back(bus); // call_back_args);
 
                 sock.close();
             }

@@ -5,13 +5,13 @@ package com.yspay
     public class VarFactory
     {
         /*private static var var_types_bin:Object =
-            {"BOOL"   : 1,
-             "INT32"  : 4,
-             "BIN"    : 7,
-             "STRING" : 8,
-             "STRUCT" : 10,
-             "ARRAY"  : 101,
-             "HASH"   : 105};*/
+           {"BOOL"   : 1,
+           "INT32"  : 4,
+           "BIN"    : 7,
+           "STRING" : 8,
+           "STRUCT" : 10,
+           "ARRAY"  : 101,
+         "HASH"   : 105};*/
         public static function GetYsVar(pack:*):YsVar
         {
             if (pack is XML)
@@ -20,6 +20,7 @@ package com.yspay
                 return GetYsVarFromBytes(pack);
             return null;
         }
+
         /* VAR TYPES
          * BOOL     : 1
          * BYTE     : 2
@@ -37,13 +38,13 @@ package com.yspay
             var var_len:int = bytes.readInt();
             var var_key_len:int = bytes.readByte() * 0xff + bytes.readByte();
             var var_key:String = bytes.readMultiByte(var_key_len, '');
-            
+
             // trace (VarTypeDict.FindType(var_type));
             // trace ('var_len: ', var_len);
             // trace ('var_key_len: ', var_key_len);
             // trace ('var_key: ', var_key);
-            
-            var var_body_len:int = var_len - var_key_len - 4/*len of len*/ - 2/*len of key len*/;
+
+            var var_body_len:int = var_len - var_key_len - 4 /*len of len*/ - 2 /*len of key len*/;
             switch (VarTypeDict.FindType(var_type))
             {
                 case 'STRING':
@@ -119,7 +120,7 @@ package com.yspay
             }
             return ys_var;
         }
-        
+
         /* VAR TYPES
          * YSVAR       : VAR
          * YSVARINT    : INT32
@@ -139,9 +140,9 @@ package com.yspay
             var var_value:String = xml.text()[0];
             var var_key:String = xml.@KEY[0];
             var var_len:int;
-            
+
             var_value = var_value != null ? var_value : "";
-            
+
             var child:XML; // for userbus or struct or array
             var child_var:YsVar; // for userbus or struct or array
             switch (var_type)
@@ -211,7 +212,7 @@ package com.yspay
                     var userbus_var:UserBus = new UserBus;
                     userbus_var.SetKeyName(var_key);
                     userbus_var.fromXmlValue(var_value);
-                    
+
                     for each (child in xml.children())
                     {
                         child_var = GetYsVar(child);
@@ -220,7 +221,7 @@ package com.yspay
                             userbus_var.Add(child_var.GetKeyName(), child_var);
                         }
                     }
-                    
+
                     ys_var = userbus_var;
                     break;
                 }

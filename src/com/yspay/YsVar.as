@@ -15,7 +15,7 @@ package com.yspay
         protected var var_len_of_key_h:int; /*高位*/
         protected var var_len_of_key_l:int; /*低位*/
 
-        public function YsVar(key:String = "")
+        public function YsVar(key:String="")
         {
             var_key = key;
             var_type = "VAR";
@@ -36,11 +36,11 @@ package com.yspay
         {
             return var_value;
         }
-		
-		public function get value():*
-		{
-			return getValue();
-		}
+
+        public function get value():*
+        {
+            return getValue();
+        }
 
         public function toLocalString():String
         {
