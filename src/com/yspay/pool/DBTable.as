@@ -10,6 +10,8 @@ package com.yspay.pool
         public var event_name:String;
         public var output_arg:String;
         protected var query_table:Object = new Object;
+        protected var server_ip:String;
+        protected var server_port:String;
 
         public function DBTable()
         {
@@ -20,6 +22,9 @@ package com.yspay.pool
             scall_name = service_call_name;
             output_arg = service_call_out_arg;
             event_name = service_call_name + '_event';
+
+            server_ip = '124.207.197.178';
+            server_port = '6802';
         }
 
         public function AddQuery(query_name:String, query_type:Class, condition:String, event_dispatcher:EventDispatcher):void
@@ -51,7 +56,7 @@ package com.yspay.pool
             bus.Add('__DICT_IN', query_table[query_name].CONDITION);
 
             var func_helper:FunctionHelper = new FunctionHelper;
-            service_call.Send(bus, '124.207.197.178', '6802',
+            service_call.Send(bus, server_ip, server_port,
                               func_helper.create(OnQueryComplete, query_name));
         }
 

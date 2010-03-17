@@ -70,8 +70,10 @@ package com.yspay
             var_pack.writeByte(var_len_of_key_h);
             var_pack.writeByte(var_len_of_key_l);
 
-            var_pack.writeMultiByte(var_key, '');
-            var_pack.writeMultiByte(var_value, '');
+            // var_pack.writeMultiByte(var_key, '');
+            // var_pack.writeMultiByte(var_value, '');
+            var_pack.writeUTFBytes(var_key);
+            var_pack.writeUTFBytes(var_value);
 
             return var_pack;
         }

@@ -9,6 +9,7 @@ package com.yspay
         protected var var_type:String;
         protected var var_xml:XML;
 
+        protected var char_set:String = 'utf-8';
         protected var var_pack:ByteArray;
         protected var var_type_number:int;
         protected var var_len_of_all:int;

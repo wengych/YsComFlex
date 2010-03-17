@@ -1,21 +1,26 @@
-<project name="YsComFlex" basedir=".">
+<project name="YsComFlex" basedir="." default="main">
     <property   environment="env"/>
-    <property name="FLEX_HOME" value="${env.FLEX_SDK_HOME}" />
+
+    <property name="FLEX_HOME" value="${env.FLEX_HOME}" />
     <property name="APP_ROOT" value="${basedir}" />
-    <property name="src-dir" value="${APP_ROOT}/src" />
-    <property name="output-dir" value="${APP_ROOT}/swc" />
-    <property name="output-file" value="YsComFlex.swc" />
+    <property name="src.dir" value="${APP_ROOT}/src" />
+    <property name="out.dir" value="${APP_ROOT}/swc" />
+    <property name="out.file" value="YsComFlex.swc" />
+    <property name="unittest.dir" value="" />
 
     <taskdef resource="flexTasks.tasks"
         classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
     <target name="main">
-        <compc as3="true" ic="com.yspay.ByteUtils com.yspay.FunctionHelper com.yspay.ServiceCall com.yspay.UserBus com.yspay.VarFactory com.yspay.VarTypeDict com.yspay.YsVar com.yspay.YsVarArray com.yspay.YsVarBin com.yspay.YsVarBool com.yspay.YsVarDouble com.yspay.YsVarHash com.yspay.YsVarInt com.yspay.YsVarString com.yspay.YsVarStruct com.yspay.pool.DBTable com.yspay.pool.DBTableQueryEvent com.yspay.pool.Pool com.yspay.pool.QueryWithIndex com.yspay.pool.Query " output="libs/YsComFlex.swc">
-            <source-path path-element="src" />
-            <library-path dir="D:/Develop/as3corelib-.92.1/lib/">
+        <compc as3="true" ic="com.yspay.ByteUtils com.yspay.FunctionHelper com.yspay.ServiceCall com.yspay.UserBus com.yspay.VarFactory com.yspay.VarTypeDict com.yspay.YsVar com.yspay.YsVarArray com.yspay.YsVarBin com.yspay.YsVarBool com.yspay.YsVarDouble com.yspay.YsVarHash com.yspay.YsVarInt com.yspay.YsVarString com.yspay.YsVarStruct com.yspay.pool.DBTable com.yspay.pool.DBTableQueryEvent com.yspay.pool.Pool com.yspay.pool.QueryWithIndex com.yspay.pool.Query "
+        output="${out.dir}/${out.file}">
+        <!-- output="libs/YsComFlex.swc"-->
+            <source-path path-element="${src.dir}" />
+            <library-path dir="${APP_ROOT}/libs/">
                 <include name="*.swc" />
             </library-path>
         </compc>
+        <copy file="${out.dir}/${out.file}" todir="../FlexUnitTests/libs" />
     </target>
 </project>
 

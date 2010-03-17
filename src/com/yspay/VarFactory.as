@@ -37,7 +37,8 @@ package com.yspay
             var var_type:int = bytes.readByte();
             var var_len:int = bytes.readInt();
             var var_key_len:int = bytes.readByte() * 0xff + bytes.readByte();
-            var var_key:String = bytes.readMultiByte(var_key_len, '');
+            // var var_key:String = bytes.readMultiByte(var_key_len, '');
+            var var_key:String = bytes.readUTFBytes(var_key_len);
 
             // trace (VarTypeDict.FindType(var_type));
             // trace ('var_len: ', var_len);
@@ -49,7 +50,8 @@ package com.yspay
             {
                 case 'STRING':
                 {
-                    var string_tmp:String = bytes.readMultiByte(var_body_len, '');
+                    // var string_tmp:String = bytes.readMultiByte(var_body_len, '');
+                    var string_tmp:String = bytes.readUTFBytes(var_body_len);
                     var string_var:YsVarString = new YsVarString(string_tmp, var_key);
                     ys_var = string_var;
                     break;
