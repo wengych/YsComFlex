@@ -17,9 +17,12 @@
     <classEntry path="com.yspay.YsVarString"/>
     <classEntry path="com.yspay.YsVarStruct"/>
     <classEntry path="com.yspay.pool.DBTable"/>
+    <classEntry path="com.yspay.pool.DBTableQueryEvent"/>
     <classEntry path="com.yspay.pool.Pool"/>
-    <classEntry path="com.yspay.pool.QueryWithIndex"/>
     <classEntry path="com.yspay.pool.Query"/>
+    <classEntry path="com.yspay.pool.QueryWithIndex"/>
+    <classEntry path="com.yspay.pool.QueryObject"/>
+    <classEntry path="com.yspay.pool.DBTableInsertEvent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
