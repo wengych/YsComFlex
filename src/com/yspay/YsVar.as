@@ -1,15 +1,18 @@
 package com.yspay
 {
     import flash.utils.ByteArray;
+    import flash.utils.Endian;
+    import flash.utils.Proxy;
+    import flash.utils.flash_proxy;
 
-    public class YsVar
+    public class YsVar extends Proxy
     {
         protected var var_key:String;
         protected var var_value:*;
         protected var var_type:String;
         protected var var_xml:XML;
 
-        protected var char_set:String = 'utf-8';
+        protected var char_set:String = 'CN-GB';
         protected var var_pack:ByteArray;
         protected var var_type_number:int;
         protected var var_len_of_all:int;
@@ -41,6 +44,11 @@ package com.yspay
         public function get value():*
         {
             return getValue();
+        }
+        
+        public function set value(obj:*):void
+        {
+            var_value = obj;
         }
 
         public function toLocalString():String
@@ -85,7 +93,37 @@ package com.yspay
 
         public function Pack():ByteArray
         {
-            return null;
+            // return null;
+			var_pack = new ByteArray;
+			var_pack.endian = Endian.BIG_ENDIAN;
+			var tmp:int = 0;
+			
+			var_pack.writeByte(tmp);
+			
+			return var_pack;
         }
+        
+        override flash_proxy function callProperty(methodName:*, ... args):* {
+            var res:*;
+            switch (methodName.toString()) {
+                default:
+                    break;
+            }
+            return res;
+        }
+        
+        override flash_proxy function getProperty(name:*):* {
+            return var_value[name];
+        }
+        
+        override flash_proxy function setProperty(name:*, value:*):void {
+            var_value[name] = value;
+        }
+        
+        override flash_proxy function hasProperty(name:*):Boolean
+        {
+            return (var_value as Object).hasOwnProperty(name);
+        }
+        
     }
 }

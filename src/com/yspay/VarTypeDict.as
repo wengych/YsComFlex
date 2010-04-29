@@ -25,6 +25,7 @@ package com.yspay
                dict["HASH"]   = 105;
              */
             dict = new Dictionary;
+			dict[0] = 'VOID';
             dict[1] = 'BOOL';
             dict[4] = 'INT32';
             dict[7] = 'BIN';

@@ -12,6 +12,15 @@ package com.yspay
            "STRUCT" : 10,
            "ARRAY"  : 101,
          "HASH"   : 105};*/
+		private static var is_trace_on:Boolean = false;
+		private static var char_set:String = 'cn-gb';
+		
+		private static function Trace(... trace_info):void
+		{
+			if (is_trace_on)
+				trace(trace_info);
+		}
+		
         public static function GetYsVar(pack:*):YsVar
         {
             if (pack is XML)
@@ -22,6 +31,7 @@ package com.yspay
         }
 
         /* VAR TYPES
+		 * VOID     : 0
          * BOOL     : 1
          * BYTE     : 2
          * INT32    : 4
@@ -35,23 +45,36 @@ package com.yspay
         {
             var ys_var:YsVar = null; // var for return.
             var var_type:int = bytes.readByte();
+			Trace ('var_type:\t', VarTypeDict.FindType(var_type));
+			
             var var_len:int = bytes.readInt();
+			Trace ('var_len:\t', var_len);
+			
             var var_key_len:int = bytes.readByte() * 0xff + bytes.readByte();
-            // var var_key:String = bytes.readMultiByte(var_key_len, '');
-            var var_key:String = bytes.readUTFBytes(var_key_len);
+			Trace ('var_key_len:\t', var_key_len);
+			
+            var var_key:String = bytes.readMultiByte(var_key_len, char_set);
+			Trace ('var_key:\t', var_key);
+			
+            // var var_key:String = bytes.readUTFBytes(var_key_len);
 
-            // trace (VarTypeDict.FindType(var_type));
-            // trace ('var_len: ', var_len);
-            // trace ('var_key_len: ', var_key_len);
-            // trace ('var_key: ', var_key);
 
             var var_body_len:int = var_len - var_key_len - 4 /*len of len*/ - 2 /*len of key len*/;
             switch (VarTypeDict.FindType(var_type))
             {
+				case 'VOID':
+				{
+					var void_tmp:Object = null;
+					Trace ('void:\t', 'null');
+					
+					ys_var = new YsVar('null');
+					break;
+				}
                 case 'STRING':
                 {
-                    // var string_tmp:String = bytes.readMultiByte(var_body_len, '');
-                    var string_tmp:String = bytes.readUTFBytes(var_body_len);
+                    var string_tmp:String = bytes.readMultiByte(var_body_len, char_set);
+					Trace('string:\t', string_tmp);
+                    // var string_tmp:String = bytes.readUTFBytes(var_body_len);
                     var string_var:YsVarString = new YsVarString(string_tmp, var_key);
                     ys_var = string_var;
                     break;
@@ -59,6 +82,7 @@ package com.yspay
                 case 'INT32':
                 {
                     var int_tmp:int = bytes.readInt();
+					Trace ('INT32:\t', int_tmp);
                     var int_var:YsVarInt = new YsVarInt(int_tmp, var_key);
                     ys_var = int_var;
                     break;
@@ -66,6 +90,7 @@ package com.yspay
                 case 'BOOL':
                 {
                     var bool_tmp:Boolean = bytes.readInt() == 1 ? true : false;
+					Trace ('BOOL:\T', bool_var);
                     var bool_var:YsVarBool = new YsVarBool(bool_tmp, var_key);
                     ys_var = bool_var;
                     break;
@@ -83,6 +108,8 @@ package com.yspay
                     var array_max:int = bytes.readInt();
                     var array_size:int = bytes.readInt();
                     var array_tmp:Array = new Array;
+					
+					Trace ('Array size:\t', array_size);
                     while (array_size-- > 0)
                     {
                         array_tmp.push(GetYsVarFromBytes(bytes));
@@ -96,6 +123,8 @@ package com.yspay
                     var struct_size:int = bytes.readInt();
                     var struct_item:YsVar = null;
                     var struct_var:YsVarStruct = new YsVarStruct(var_key);
+					
+					Trace ('Struct size:\t', struct_size);
                     while (struct_size-- > 0)
                     {
                         struct_item = GetYsVarFromBytes(bytes);
@@ -111,6 +140,8 @@ package com.yspay
                     var hash_size:int = bytes.readInt();
                     ys_var = new UserBus(var_key);
                     var hash_item:YsVar = null;
+					
+					Trace ('Hash size:\t', hash_size);
                     while (hash_size-- > 0)
                     {
                         hash_item = GetYsVarFromBytes(bytes);
@@ -124,6 +155,7 @@ package com.yspay
         }
 
         /* VAR TYPES
+		 * YSVOID      : VOID
          * YSVAR       : VAR
          * YSVARINT    : INT32
          * YSVARBOOL   : BOOL

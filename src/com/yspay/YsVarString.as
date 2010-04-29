@@ -26,10 +26,16 @@ package com.yspay
 
         public override function Pack():ByteArray
         {
+			var key_byte_arr:ByteArray = new ByteArray;
+			var val_byte_arr:ByteArray = new ByteArray;
+			
+			key_byte_arr.writeMultiByte(var_key, char_set);
+			val_byte_arr.writeMultiByte(var_value, char_set);
+			
             var_pack = new ByteArray;
             var_pack.endian = Endian.BIG_ENDIAN;
 
-            var_len_of_all = 4 /*length of itself*/ + 2 /*length of len_of_key*/ + var_key.length + var_value.length;
+            var_len_of_all = 4 /*length of itself*/ + 2 /*length of len_of_key*/ + key_byte_arr.length + val_byte_arr.length;
             var_len_of_key_h = var_key.length / 0xff;
             var_len_of_key_l = var_key.length % 0xff;
 
@@ -38,10 +44,10 @@ package com.yspay
             var_pack.writeByte(var_len_of_key_h);
             var_pack.writeByte(var_len_of_key_l);
 
-            // var_pack.writeMultiByte(var_key, char_set);
-            // var_pack.writeMultiByte(var_value, char_set);
-            var_pack.writeUTFBytes(var_key);
-            var_pack.writeUTFBytes(var_value);
+            var_pack.writeMultiByte(var_key, char_set);
+            var_pack.writeMultiByte(var_value, char_set);
+            // var_pack.writeUTFBytes(var_key);
+            // var_pack.writeUTFBytes(var_value);
 
             return var_pack;
         }

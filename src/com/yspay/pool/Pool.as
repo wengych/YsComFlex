@@ -12,7 +12,10 @@ package com.yspay.pool
         public function Add(key:String, object_type:Class, ... init_arg_list):void
         {
             this[key] = pool_objects[key] = new object_type();
-            this[key].init.apply(this[key], init_arg_list);
+			if (init_arg_list.length > 0)
+			{
+            	this[key].init.apply(this[key], init_arg_list);
+			}
         }
 
         public function Get(key:String):*
@@ -27,7 +30,8 @@ package com.yspay.pool
 
         public function GetEvent(key:String):String
         {
-            return Get(key).event_name;
+            return Get(key).select_event_name;
         }
+		
     }
 }

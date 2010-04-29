@@ -8,6 +8,8 @@ package com.yspay
         public dynamic function YsVarStruct(key:String="")
         {
             super(key);
+            
+            var_value = new Object;
             var_type = "STRUCT";
             var_type_number = 0x0a;
         }
@@ -18,7 +20,7 @@ package com.yspay
             var_xml.@KEY = var_key;
             var_xml.@TYPE = var_type;
             var size:int = 0;
-            for each (var item:YsVar in this)
+            for each (var item:YsVar in var_value)
             {
                 var_xml.appendChild(item.toXml());
                 ++size;
@@ -36,7 +38,7 @@ package com.yspay
         {
             var rtn:String = var_key + ":";
 
-            for each (var ys_var:YsVar in this)
+            for each (var ys_var:YsVar in var_value)
             {
                 rtn += '\t' + ys_var.toLocalString();
             }
@@ -66,7 +68,7 @@ package com.yspay
 
         public function AddVar(key:String, ys_var:YsVar):void
         {
-            this[key] = ys_var;
+            var_value[key] = ys_var;
             ys_var.SetKeyName(key);
         }
 
@@ -114,16 +116,16 @@ package com.yspay
             var_pack.writeByte(var_len_of_key_h);
             var_pack.writeByte(var_len_of_key_l);
 
-            // var_pack.writeMultiByte(var_key, '');
-            var_pack.writeUTFBytes(var_key);
+            var_pack.writeMultiByte(var_key, char_set);
+            // var_pack.writeUTFBytes(var_key);
 
             var size:int = 0;
-            for each (var item:YsVar in this)
+            for each (var item:YsVar in var_value)
                 size++;
             var_pack.writeInt(size);
 
             var item_pack:ByteArray;
-            for each (var ys_var:YsVar in this)
+            for each (var ys_var:YsVar in var_value)
             {
                 item_pack = ys_var.Pack();
                 var_pack.writeBytes(item_pack);

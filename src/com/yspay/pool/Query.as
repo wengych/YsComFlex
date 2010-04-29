@@ -9,10 +9,9 @@ package com.yspay.pool
         {
         }
 
-
         public function Do(bus:UserBus, table:DBTable, ... args /*not in use*/):void
         {
-            this[table.output_arg] = bus.GetFirst(table.output_arg);
+            this[table.arg_select] = bus.GetFirst(table.arg_select);
         }
     }
 }

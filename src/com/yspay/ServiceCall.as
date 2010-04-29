@@ -194,7 +194,8 @@ package com.yspay
                     // no response body
                     // error occured here.
                     // do callback.
-                    trace('No response body!');
+                    trace ('No response body!');
+					trace (JSON.encode(resp_head));
                     // call_back_args.json_head = resp_head;
                     // call_back_args.user_bus = null;
                     call_back(null); // call_back_args);
@@ -241,6 +242,7 @@ package com.yspay
                 }
                 else if (resp_head['resptype'] == ServiceCall.RESP_TYPE_BIN)
                 {
+					 //trace (ByteUtils.Bytes2String(resp_body));
                     bus = VarFactory.GetUserBus(resp_body);
                 }
 

@@ -3,7 +3,7 @@ package com.yspay
     import flash.utils.ByteArray;
     import flash.utils.Endian;
 
-    public class YsVarArray extends YsVar
+    public dynamic class YsVarArray extends YsVar
     {
         public function YsVarArray(value:Array=null, key:String="")
         {
@@ -31,6 +31,11 @@ package com.yspay
             var_xml.@MAX = 16777215;
 
             return var_xml.toXMLString();
+        }
+        
+        public function get object():Object
+        {
+            return this.var_value;
         }
 
         public function push(item:YsVar):void
@@ -141,8 +146,8 @@ package com.yspay
             var_pack.writeByte(var_len_of_key_h);
             var_pack.writeByte(var_len_of_key_l);
 
-            // var_pack.writeMultiByte(var_key, 'utf-8');
-            var_pack.writeUTFBytes(var_key);
+            var_pack.writeMultiByte(var_key, char_set);
+            // var_pack.writeUTFBytes(var_key);
             var_pack.writeInt(array_max_length);
             var_pack.writeInt(var_value.length);
 
