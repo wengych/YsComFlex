@@ -54,7 +54,8 @@ package com.yspay
             this.sock.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
         }
 
-        public function Send(bus:UserBus, ip:String, port:String, func:Function, req_bus_type:String=REQ_TYPE_BIN, resp_bus_type:String=RESP_TYPE_BIN):void
+        public function Send(bus:UserBus, ip:String, port:String, func:Function,
+                             req_bus_type:String=REQ_TYPE_BIN, resp_bus_type:String=RESP_TYPE_BIN):void
         {
             var len_of_len:int = 0;
             var req_head_obj:Object = new Object;
@@ -118,12 +119,12 @@ package com.yspay
 
         protected function onIoError(event:IOErrorEvent):void
         {
-            trace(event.text);
+            call_back(null, event);
         }
 
         protected function onSecurityError(event:SecurityErrorEvent):void
         {
-            trace(event.text);
+            call_back(null, event);
         }
 
         protected function onConnect(event:Event):void
@@ -194,8 +195,8 @@ package com.yspay
                     // no response body
                     // error occured here.
                     // do callback.
-                    trace ('No response body!');
-					trace (JSON.encode(resp_head));
+                    trace('No response body!');
+                    trace(JSON.encode(resp_head));
                     // call_back_args.json_head = resp_head;
                     // call_back_args.user_bus = null;
                     call_back(null); // call_back_args);
@@ -231,7 +232,8 @@ package com.yspay
                 var bus:UserBus = null;
                 if (resp_head['resptype'] == ServiceCall.RESP_TYPE_XML)
                 {
-                    var xml_string:String = resp_body.readMultiByte(resp_body_len, char_set);
+                    var xml_string:String = resp_body.readMultiByte(resp_body_len,
+                                                                    char_set);
                     // trace('xml string:\n', xml_string);
                     // trace('xml length: ', xml_string.length);
                     // try {
@@ -242,7 +244,7 @@ package com.yspay
                 }
                 else if (resp_head['resptype'] == ServiceCall.RESP_TYPE_BIN)
                 {
-					 //trace (ByteUtils.Bytes2String(resp_body));
+                    //trace (ByteUtils.Bytes2String(resp_body));
                     bus = VarFactory.GetUserBus(resp_body);
                 }
 
